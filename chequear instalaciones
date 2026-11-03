@@ -1,0 +1,31 @@
+echo "=== 1. VERIFICACIÓN DE COMANDOS Y APPS ==="
+for cmd in code tailscale anydesk remmina filezilla docker cron copyq; do
+  if command -v $cmd &> /dev/null; then
+    echo -e " [OK]  $cmd está instalado"
+  else
+    echo -e " [X]   $cmd NO se encontró"
+  fi
+done
+
+echo -e "\n=== 2. ESTADO DE SERVICIOS EN SEGUNDO PLANO ==="
+for service in docker tailscaled cron fail2ban unattended-upgrades; do
+  if systemctl is-active --quiet $service; then
+    echo -e " [ACTIVO]    Servicio: $service"
+  else
+    echo -e " [INACTIVO]  Servicio: $service"
+  fi
+done
+
+echo -e "\n=== 3. PERMISOS DE USUARIO PARA DOCKER ==="
+if groups $USER | grep &>/dev/null \bdocker\b; then
+  echo " [OK]  Tu usuario ($USER) pertenece al grupo docker"
+else
+  echo " [!]   Tu usuario NO pertenece al grupo docker (requiere sudo o reiniciar sesión)"
+fi
+
+echo -e "\n=== 4. ACCESO A REDES COMPARTIDAS (SAMBA/CIFS) ==="
+if dpkg -l | grep -E "cifs-utils|smbclient" &>/dev/null; then
+  echo " [OK]  Soportes de red Samba/CIFS instalados correctamente"
+else
+  echo " [X]   Faltan paquetes de red Samba"
+fi
