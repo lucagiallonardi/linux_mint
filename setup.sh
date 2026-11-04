@@ -76,7 +76,7 @@ echo " Reiniciá tu PC para aplicar los permisos de grupo Docker."
 echo "=================================================="
 
 echo "=== 1. VERIFICACIÓN DE COMANDOS Y APPS ==="
-for cmd in code tailscale anydesk remmina filezilla docker cron clipman; do
+for cmd in code tailscale anydesk remmina filezilla docker cron xfce4-clipman; do
   if command -v $cmd &> /dev/null; then
     echo -e " [OK]  $cmd está instalado"
   else
