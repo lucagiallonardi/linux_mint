@@ -38,6 +38,8 @@ if [ -n "$SUDO_USER" ]; then
   usermod -aG docker "$SUDO_USER"
 fi
 
+newgrp docker
+
 echo "=================================================="
 echo " 4. Configurando Seguridad y Actualizaciones Automáticas..."
 echo "=================================================="
