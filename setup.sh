@@ -52,13 +52,16 @@ echo " 5. Instalando Tailscale..."
 echo "=================================================="
 curl -fsSL https://tailscale.com/install.sh | sh
 
+
+sudo apt update && sudo apt install xfce4-clipman xfce4-clipman-plugin -y
+
 echo "=================================================="
 echo " 6. Configurando e instalando AnyDesk..."
 echo "=================================================="
-wget -qO - https://keys.anydesk.com/repos/gpg-key.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/anydesk.gpg
-echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk.list
-apt update
-apt install -y anydesk
+curl -fsSL https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo gpg --dearmor -o /usr/share/keyrings/anydesk-stable-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/anydesk-stable-keyring.gpg] http://deb.anydesk.com/ all main" | sudo tee /etc/apt/sources.list.d/anydesk-stable.list
+sudo dpkg --configure -a
+sudo apt update && sudo apt install anydesk -y
 
 echo "=================================================="
 echo " 7. Instalando Visual Studio Code..."
@@ -73,7 +76,7 @@ echo " Reiniciá tu PC para aplicar los permisos de grupo Docker."
 echo "=================================================="
 
 echo "=== 1. VERIFICACIÓN DE COMANDOS Y APPS ==="
-for cmd in code tailscale anydesk remmina filezilla docker cron copyq; do
+for cmd in code tailscale anydesk remmina filezilla docker cron clipman; do
   if command -v $cmd &> /dev/null; then
     echo -e " [OK]  $cmd está instalado"
   else
